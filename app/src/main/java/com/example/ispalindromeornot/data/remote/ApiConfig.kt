@@ -1,4 +1,4 @@
-package com.example.ispalindromeornot.data.network
+package com.example.ispalindromeornot.data.remote
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

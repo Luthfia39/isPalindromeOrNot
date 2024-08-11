@@ -1,13 +1,17 @@
-package com.example.ispalindromeornot.data.network
+package com.example.ispalindromeornot.data.remote
 
 import com.example.ispalindromeornot.data.model.User
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("api/users")
+    @GET("users")
     suspend fun getUsers(
         @Query("page") page: Int,
         @Query("per_page") perPage: Int
-    ): List<User>
+    ): UserResponse
 }
+
+data class UserResponse(
+    val data: List<User>
+)
