@@ -16,23 +16,23 @@ import com.example.ispalindromeornot.data.model.User
 
 @Composable
 fun UserItem(user: User, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-            .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = rememberAsyncImagePainter(model = user.avatar),
-            contentDescription = null,
-            modifier = Modifier.size(50.dp),
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Column {
-            Text(text = "${user.firstName} ${user.lastName}", style = MaterialTheme.typography.bodyLarge)
-            Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
-        }
-    }
+//    Row(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(vertical = 8.dp)
+//            .clickable { onClick() },
+//        verticalAlignment = Alignment.CenterVertically
+//    ) {
+//        Image(
+//            painter = rememberAsyncImagePainter(model = user.avatar),
+//            contentDescription = null,
+//            modifier = Modifier.size(50.dp),
+//            contentScale = ContentScale.Crop
+//        )
+//        Spacer(modifier = Modifier.width(16.dp))
+//        Column {
+//            Text(text = "${user.firstName} ${user.lastName}", style = MaterialTheme.typography.bodyLarge)
+//            Text(text = user.email, style = MaterialTheme.typography.bodyMedium)
+//        }
+//    }
 }

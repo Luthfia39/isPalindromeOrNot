@@ -1,13 +1,20 @@
 package com.example.ispalindromeornot
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,14 +22,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import com.example.ispalindromeornot.data.model.User
-import com.example.ispalindromeornot.ui.component.UserItem
-import com.example.ispalindromeornot.ui.viewmodel.UserViewModel
+import com.example.ispalindromeornot.ui.ThirdScreen
+import com.example.ispalindromeornot.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -34,7 +39,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//@HiltAndroidApp
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
@@ -49,7 +53,11 @@ fun MyApp() {
                 userName = backStackEntry.arguments?.getString("userName") ?: ""
             )
         }
-        composable("thirdScreen") { ThirdScreen() }
+        composable("thirdScreen") { val userViewModel: UserViewModel = hiltViewModel()
+            ThirdScreen(viewModel = userViewModel) { selectedUserName ->
+                navController.previousBackStackEntry?.savedStateHandle?.set("selectedUserName", selectedUserName)
+                navController.popBackStack()
+            } }
     }
 }
 
@@ -145,24 +153,6 @@ fun SecondScreen(navController: NavHostController, userName: String) {
         }) {
             Text("Choose a User")
         }
-    }
-}
-
-//@Composable
-@Composable
-fun ThirdScreen(
-    viewModel: UserViewModel = hiltViewModel(),
-    onUserSelected: (String) -> Unit
-) {
-    val users by viewModel.users.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-//    val isRefreshing by viewModel.isRefreshing.collectAsState()
-
-
-
-    // Load data when the screen is composed
-    LaunchedEffect(Unit) {
-        viewModel.loadUsers()
     }
 }
 

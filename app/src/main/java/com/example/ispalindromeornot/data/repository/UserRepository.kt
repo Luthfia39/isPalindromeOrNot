@@ -1,10 +1,13 @@
 package com.example.ispalindromeornot.data.repository
 
-import com.example.ispalindromeornot.data.network.ApiConfig
-import com.example.ispalindromeornot.data.network.ApiService
+import com.example.ispalindromeornot.data.model.User
+import com.example.ispalindromeornot.data.remote.ApiService
+import javax.inject.Inject
 
-class UserRepository {
-    private val apiService: ApiService = ApiConfig.apiService
+class UserRepository @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getUsers(page: Int, perPage: Int) = apiService.getUsers(page, perPage)
+    suspend fun getUsers(page: Int, perPage: Int): List<User> {
+        val response = apiService.getUsers(page, perPage)
+        return response.data
+    }
 }
