@@ -1,6 +1,7 @@
 package com.example.ispalindromeornot
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
@@ -48,11 +50,13 @@ fun MyApp() {
     ) {
         composable("firstScreen") { FirstScreen(navController) }
         composable("secondScreen") { backStackEntry ->
-            SecondScreen(
-                navController = navController,
-                userName = backStackEntry.arguments?.getString("userName") ?: ""
-            )
+            val name = backStackEntry.arguments?.getString("name")
+            val selectedUserName = navController.currentBackStackEntry
+                ?.savedStateHandle
+                ?.get<String>("selectedUserName")
+            SecondScreen(navController = navController, name = name, selectedUserName = selectedUserName)
         }
+
         composable("thirdScreen") { val userViewModel: UserViewModel = hiltViewModel()
             ThirdScreen(viewModel = userViewModel) { selectedUserName ->
                 navController.previousBackStackEntry?.savedStateHandle?.set("selectedUserName", selectedUserName)
@@ -91,9 +95,9 @@ fun FirstScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             if (isPalindrome(sentence.text)) {
-                dialogMessage = "isPalindrome"
+                dialogMessage = "The text is Palindrome!"
             } else {
-                dialogMessage = "not palindrome"
+                dialogMessage = "The text is not palindrome!"
             }
             showDialog = true
         }) {
@@ -120,33 +124,19 @@ fun FirstScreen(navController: NavHostController) {
 }
 
 @Composable
-fun SecondScreen(navController: NavHostController, userName: String) {
-    var selectedUserName by remember { mutableStateOf("") }
+fun SecondScreen(navController: NavHostController, name: String?, selectedUserName: String?) {
+
+    Log.d("2", "$name + $selectedUserName")
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "Welcome",
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center
-        )
+        Text(text = "Welcome", fontSize = 20.sp)
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "Your Name: $userName",
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Selected User Name: $selectedUserName",
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center
-        )
+        Text(text = "Name from First Screen: $name")
+        Text(text = "Selected User Name: ${selectedUserName ?: "No user selected"}")
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             navController.navigate("thirdScreen")

@@ -40,7 +40,6 @@ fun ThirdScreen(
     onUserSelected: (String) -> Unit
 ) {
     val users by viewModel.users.observeAsState(emptyList())
-    Log.d("3", users.toString())
     val isLoading by viewModel.isLoading.observeAsState(false)
     val isError by viewModel.isError.observeAsState(false)
 
