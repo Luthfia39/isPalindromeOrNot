@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
@@ -129,8 +128,6 @@ fun FirstScreen(navController: NavHostController) {
 
 @Composable
 fun SecondScreen(navController: NavHostController, name: String?, selectedUserName: String?) {
-
-    Log.d("2", "$name + $selectedUserName")
 
     Column(
         modifier = Modifier.fillMaxSize(),
