@@ -49,7 +49,7 @@ fun MyApp() {
         startDestination = "firstScreen"
     ) {
         composable("firstScreen") { FirstScreen(navController) }
-        composable("secondScreen") { backStackEntry ->
+        composable("secondScreen/{name}") { backStackEntry ->
             val name = backStackEntry.arguments?.getString("name")
             val selectedUserName = navController.currentBackStackEntry
                 ?.savedStateHandle
@@ -104,7 +104,11 @@ fun FirstScreen(navController: NavHostController) {
             Text("Check")
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navController.navigate("secondScreen") }) {
+        Button(onClick = {
+            if (name.text.isNotEmpty()) {
+                navController.navigate("secondScreen/${name.text}")
+            }
+        }) {
             Text("Next")
         }
     }
